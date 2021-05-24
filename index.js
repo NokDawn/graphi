@@ -1,13 +1,5 @@
 import APS from "apollo-server";
-import GT from "graphql-tools";
-import { typeDefs } from "./domain.js";
-import { resolvers } from "./application.js";
-
-// DOMAIN DRIVEN DESIGN
-const schema = GT.makeExecutableSchema({
-  typeDefs,
-  resolvers,
-});
+import { schema } from "./schema.js";
 
 const server = new APS.ApolloServer({
   schema,
