@@ -1,24 +1,11 @@
-import { books, authors } from "./infrastructure.js";
+import { Books } from "./Books/Application/Queries/Books.js";
+import { Book } from "./Books/Application/Chains/index.js";
 
 const resolvers = {
   Query: {
-    // Books: () => books, // return all books
-    // Books: (_, params) => {
-    //   console.log(params);
-    //   return books.filter((book) => book.id === params.id);
-    // }, // return book filtered by params ID
-    Books: (_, params) => {
-      return params.id ? books.filter((book) => book.id === params.id) : books;
-    },
+    Books,
   },
-  Book: {
-    title: (parent, { upper }) => {
-      return upper ? parent.title.toUpperCase() : parent.title;
-    },
-    author: (parent, params) => {
-      return authors.filter((author) => author.id === parent.author)[0];
-    },
-  },
+  ...Book,
   Author: {
     name: (parent) => {
       return parent.name.toUpperCase();
