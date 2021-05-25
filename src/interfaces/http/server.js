@@ -1,5 +1,5 @@
 import APS from "apollo-server";
-import { schema } from "./schema.js";
+import { schema } from "../../schemas/schema.js";
 
 const server = new APS.ApolloServer({
   schema,
@@ -18,4 +18,4 @@ server.init = () => {
   });
 };
 
-server.init();
+export { server };
