@@ -1,16 +1,14 @@
 import { Books } from "./Books/Application/Queries/Books.js";
-import { Book } from "./Books/Application/Chains/index.js";
+import { Book, Author } from "./Books/Application/Chains/index.js";
+import { Users } from "./Users/Application/Queries/Users.js";
 
 const resolvers = {
   Query: {
     Books,
+    Users,
   },
   ...Book,
-  Author: {
-    name: (parent) => {
-      return parent.name.toUpperCase();
-    },
-  },
+  ...Author,
 };
 
 export { resolvers };
