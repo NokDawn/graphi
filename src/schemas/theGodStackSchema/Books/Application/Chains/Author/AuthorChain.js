@@ -1,7 +1,5 @@
 const AuthorChain = {
-  name: (parent) => {
-    return parent.name.toUpperCase();
-  },
+  name: (parent) => parent.name.toUpperCase(),
 };
 
 export { AuthorChain };

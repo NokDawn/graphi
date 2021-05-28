@@ -1,5 +1,5 @@
-import { BookDomain, BookQueries } from "./Books/Domain/Book.js";
-import { UserDomain, UserQueries } from "./Users/Domain/User.js";
+import { BookDomain, BookQueries } from './Books/Domain/Book.js';
+import { UserDomain, UserQueries } from './Users/Domain/User.js';
 
 const typeDefs = `
 

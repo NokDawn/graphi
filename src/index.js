@@ -1,3 +1,3 @@
-import { server } from "./interfaces/http/server.js";
+import { server } from './interfaces/http/server.js';
 
 server.init();

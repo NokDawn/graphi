@@ -1,7 +1,5 @@
-import { users } from "../../Infrastructure/users.js";
+import { users } from '../../Infrastructure/users.js';
 
-const Users = () => {
-  return users;
-};
+const Users = () => users;
 
 export { Users };
