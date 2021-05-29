@@ -1,0 +1,5 @@
+// docker
+Po utworzeniu pliku Dockerfile i docker-compose.yml, budujemy builda za pomocą docker-compose up
+Po zbudowaniu buildu, możemy zobaczyć obecne dockery za pomocą docker ps -a
+Aby uruchomić coś(bash) wpisujemy docker -it api.local.tgs.com bash
+ls -lah w BASH aby zobaczyć wzystkie pliki
