@@ -1,0 +1,48 @@
+version: '3'
+networks:
+  main:
+services:
+  traefik:
+    image: 'traefik:v2.4'
+    container_name: 'traefik'
+    command:
+      - '--api.insecure=true'
+      - '--providers.docker=true'
+      - '--entrypoints.http.address=:${HTTP_PORT}'
+      - '--entrypoints.https.address=:${HTTPS_PORT}'
+      - '--global.sendAnonymousUsage=false'
+      - '--certificateresolvers.ssl.acme.httpchallenge=true'
+      - '--certificateresolvers.ssl.acme.httpchallenge.entrypoint=http'
+      - '--certificateresolvers.ssl.acme.email=${CERTIFICATE_EMAIL}'
+      - '--certificateresolvers.ssl.acme.storage=/letsencrypt/acme.json'
+    ports:
+      - '${HTTP_PORT}:${HTTP_PORT}'
+      - '${HTTPS_PORT}:${HTTPS_PORT}'
+      - '8080:8080'
+    volumes:
+      - './letsencrypt:/letsencrypt'
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+  api:
+    container_name: '${API_URL}'
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./registry/api/${ENVIRONMENT}/Dockerfile
+    volumes:
+      - './:/opt/app-root/src:rw'
+    ports:
+      - ${HTTP_PORT}
+    environment:
+      PORT: ${HTTP_PORT}
+      NODE_ENV: '${ENVIRONMENT}'
+      APP_ENV: '${ENVIRONMENT}'
+    command: '.s2i/bin/assemble'
+    labels:
+      traefik.enable: true
+      traefik.http.routers.api-web.rule: Host(`${${API_URL}}`)
+      traefik.http.routers.api-web.entrypoints: http
+      traefik.http.routers.api-web.middlewares: redirect
+      traefik.http.middlewares.redirect.redirectscheme.scheme: https
+      traefik.http.routers.api-web-secure.rule: Host(`${API_URL})
+      traefik.http.routers.api-web-secure.entrypoints: https
+      traefik.http.routers.api-web-secure.tls.certresolver: ssl
