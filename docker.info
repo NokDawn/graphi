@@ -3,3 +3,6 @@ Po utworzeniu pliku Dockerfile i docker-compose.yml, budujemy builda za pomocą 
 Po zbudowaniu buildu, możemy zobaczyć obecne dockery za pomocą docker ps -a
 Aby uruchomić coś(bash) wpisujemy docker -it api.local.tgs.com bash
 ls -lah w BASH aby zobaczyć wzystkie pliki
+
+Przed uruchomieniem builda zawsze usuwamy poprzedni build za pomocą
+docker stop 3_liczby_nazwy_dockera i docker rm 3_liczby_nazwy_dockera
