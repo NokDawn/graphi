@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+shopt -s dotglob
+
+if [ -f package.json ]; then
+    echo "#### Found package.json, will install dependencies"
+    npm install --production=false
+fi
+
+if [ $APP_ENV = "development" ]; then
+    echo "#### Checking lint in project"
+    npm run lint
+fi
+
+if [ $APP_ENV = "development" ]; then
+    .s2i/bin/run
+else
+    echo "### Removing trash"
+    rm .cache/ .config/ -Rf
+    echo "### Build process success"
+    .s2i/bin/run
+fi
