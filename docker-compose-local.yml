@@ -15,6 +15,24 @@ services:
       - '8080:8080'
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
+
+  db:
+    container_name: '${DB_HOST}'
+    image: postgres:12.4-alpine
+    volumes:
+      - '././data:/var/lib/postgresql/data:rw'
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: '${DB_NAME}'
+      POSTGRES_USER: '${DB_USER}'
+      POSTGRES_PASSWORD: '${DB_PASS}'
+    restart: unless-stopped
+    labels:
+      traefik.enable: true
+      traefik.http.routers.pg-web.rule: Host(`${DB_HOST})
+      traefik.http.routers.pg-web.entrypoints: http
+
   api:
     container_name: '${API_URL}'
     restart: unless-stopped
@@ -29,7 +47,15 @@ services:
       PORT: ${HTTP_PORT}
       NODE_ENV: '${ENVIRONMENT}'
       APP_ENV: '${ENVIRONMENT}'
-    command: '.s2i/bin/assemble'
+    command:
+      [
+        './wait-for-it.sh',
+        '-t',
+        '0',
+        '${DB_HOST}:5432',
+        '--',
+        '.s2i/bin/assemble',
+      ]
     labels:
       traefik.enable: true
       traefik.http.routers.api-web.rule: Host(`${${API_URL}}`)

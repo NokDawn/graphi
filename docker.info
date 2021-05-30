@@ -6,3 +6,5 @@ ls -lah w BASH aby zobaczyć wzystkie pliki
 
 Przed uruchomieniem builda zawsze usuwamy poprzedni build za pomocą
 docker stop 3_liczby_nazwy_dockera i docker rm 3_liczby_nazwy_dockera
+
+docker exec -it api.local.tgs.com bash => aby otworzyć terminal bash w dockerze, wszystko co zrobimy w dockerze będzie miało odzwierciedlenie w naszym projekcie lokalnym, możemy np. zainstalować bibliotekę npm - npm i knex
